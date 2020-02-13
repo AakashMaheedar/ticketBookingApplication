@@ -1,35 +1,10 @@
-pipeline{
-    agent any
-        stages{
-            stage('complie stage')
-            {
-                steps
-                {
-                    withMaven(maven : 'Maven')
-                    {
-                        sh 'mvn clean compile'
-                    }
-                }
-            }
-            stage('Testing stage')
-            {
-                steps
-                {
-                    withMaven(maven : 'Maven')
-                    {
-                        sh 'mvn test'
-                    }
-                }
-            }
-            stage('Deployment stage')
-            {
-                steps
-                {
-                    withMaven(maven : 'Maven')
-                         {
-                            sh 'mvn test'
-                         }
-                }
-            }
-        }
-}
+node{
+  stage('SCM Checkout'){
+    
+    git 'https://github.com/AakashMaheedar/sample1/'
+  }
+  stage('Compile-package'){
+    def mvnHome =  tool name: '', type: 'maven'
+    sh "{mvnHome}/bin/mvn package" 
+  }
+ }
